@@ -25,9 +25,7 @@ class NeuralNetwork:
         self.losses: list[cp.floating[Any]] = []
         self.training_time: float = 0.0
 
-    def activation(  # type: ignore
-        self, weighted_sum: npt.NDArray[cp.float64]
-    ) -> npt.NDArray[cp.float64]:  # type: ignore
+    def activation(self, weighted_sum: npt.NDArray[cp.float64]) -> npt.NDArray[cp.float64]:
         """Activation function using ReLU, formula: max(0, weighted_sum)
 
         Args:
@@ -47,8 +45,8 @@ class NeuralNetwork:
         Returns:
             Any: The output of the softmax function
         """
-        max_actvation = cp.max(activation, axis=0, keepdims=True)  # type: ignore
-        exp_activation = cp.exp(activation - max_actvation)  # type:ignore
+        max_activation = cp.max(activation, axis=0, keepdims=True)  # type: ignore
+        exp_activation = cp.exp(activation - max_activation)  # type: ignore
         return exp_activation / cp.sum(exp_activation, axis=0, keepdims=True)  # type: ignore
 
     def forward_propagation(self, matrix: npt.NDArray[cp.uint8]) -> Any:
@@ -63,7 +61,7 @@ class NeuralNetwork:
         """
         weighted_sum = self.vector_weight.dot(matrix) + self.bias  # type: ignore
         activation = self.activation(weighted_sum)  # type: ignore
-        return self.softmax(activation)  # type: ignore
+        return self.softmax(activation)
 
     def log_loss(self, softmax: npt.NDArray[cp.float64]) -> cp.floating[Any]:
         """Log loss function implemented with CCE, formula:
@@ -77,16 +75,10 @@ class NeuralNetwork:
         """
         epsilon = 1e-15
         size = self.train_matrix.shape[1]
-        log_loss = (  # type: ignore
-            -1
-            / size
-            * cp.sum(  # type: ignore
-                self.answer * cp.log(softmax + epsilon)  # type: ignore
-            )
-        )
+        log_loss = -1 / size * cp.sum(self.answer * cp.log(softmax + epsilon))  # type: ignore
         return log_loss  # type: ignore
 
-    def gradient(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:  # type: ignore
+    def gradient(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:
         """Gradient function, calculate the gradient of the weights and bias
 
         Returns:
@@ -103,11 +95,11 @@ class NeuralNetwork:
 
     def update(self) -> None:
         """Update function, update the weights and bias"""
-        dw, db = self.gradient()  # type: ignore
+        dw, db = self.gradient()
         self.vector_weight -= self.learning_rate * dw.T  # type: ignore
         self.bias -= self.learning_rate * db  # type: ignore
 
-    def train(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:  # type: ignore
+    def train(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:
         """Train function, train the model
 
         Returns:
@@ -121,7 +113,7 @@ class NeuralNetwork:
         print(f"Training time: {self.training_time} seconds")
         return (self.vector_weight, self.bias)  # type: ignore
 
-    def test(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:  # type: ignore
+    def test(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:
         """Test function, test the model and return failures
 
         Returns:
@@ -159,17 +151,17 @@ class NeuralNetwork:
         Args:
             number (int): The number of failures to show
         """
-        failures, test_predictions = self.test()  # type: ignore
-        print(f"Number of failures: {len(failures)}")  # type: ignore
+        failures, test_predictions = self.test()
+        print(f"Number of failures: {len(failures)}")
         test_labels = cp.argmax(self.test_labels, axis=0)  # type: ignore
 
-        if number > len(failures):  # type: ignore
-            number = len(failures)  # type: ignore
+        if number > len(failures):
+            number = len(failures)
             print(f"Only {number} failures found.")
 
         plt.figure(figsize=(10, 10))  # type: ignore
         for i in range(number):
-            index = failures[i]  # type: ignore
+            index = failures[i]
             image = cp.asnumpy(self.test_matrix[:, index].reshape(28, 28))  # type: ignore
             true_label = test_labels[index]
             predicted_label = test_predictions[index]
@@ -209,9 +201,7 @@ def load_train_mnist() -> tuple[Any, Any]:
     """
     train_dataset = keras.datasets.mnist.load_data()[0]
     return cp.asarray(train_dataset[0].reshape(60000, 784).T) / 255, cp.asarray(  # type: ignore
-        keras.utils.to_categorical(  # type: ignore
-            train_dataset[1]
-        ).T
+        keras.utils.to_categorical(train_dataset[1]).T  # type: ignore
     )
 
 
@@ -223,9 +213,7 @@ def load_test_mnist() -> tuple[Any, Any]:
     """
     test_dataset = keras.datasets.mnist.load_data()[1]
     return cp.asarray(test_dataset[0].reshape(10000, 784).T) / 255, cp.asarray(  # type: ignore
-        keras.utils.to_categorical(  # type: ignore
-            test_dataset[1]
-        ).T
+        keras.utils.to_categorical(test_dataset[1]).T  # type: ignore
     )
 
 

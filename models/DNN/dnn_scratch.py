@@ -29,9 +29,7 @@ class DeepNeuralNetwork:
         self.losses: list[cp.floating[Any]] = []
         self.training_time: float = 0.0
 
-    def activation(  # type: ignore
-        self, weighted_sum: npt.NDArray[cp.float64]
-    ) -> npt.NDArray[cp.float64]:  # type: ignore
+    def activation(self, weighted_sum: npt.NDArray[cp.float64]) -> npt.NDArray[cp.float64]:
         """Activation function using ReLU, formula: max(0, weighted_sum)
 
         Args:
@@ -111,7 +109,7 @@ class DeepNeuralNetwork:
         dz = predictions[-1] - self.answer
         size = self.train_matrix.shape[1]
         for layer_index in reversed(range(len(self.layers))):
-            dw = 1 / size * dz.dot(predictions[layer_index].T)  # type: ignore
+            dw = 1 / size * dz.dot(predictions[layer_index].T)
             db = 1 / size * cp.sum(dz, axis=1, keepdims=True)  # type: ignore
             gradients.append((dw, db))  # type: ignore
             if layer_index > 0:
@@ -144,16 +142,16 @@ class DeepNeuralNetwork:
         """
         start = time.time()
         for _ in tqdm(range(self.nb_epoch)):
-            predictions = self.forward_propagation(self.train_matrix)  # type: ignore
+            predictions = self.forward_propagation(self.train_matrix)
             self.losses.append(float(self.log_loss(predictions[-1])))  # type: ignore
             gradients = self.backward_propagation(predictions)  # type: ignore
             self.update(gradients)
         self.training_time = round(time.time() - start, 3)
         print(f"Training time: {self.training_time} seconds")
-        self.show_loss()  # type: ignore
+        self.show_loss()
         return self.layers
 
-    def test(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:  # type: ignore
+    def test(self) -> tuple[npt.NDArray[cp.float64], npt.NDArray[cp.float64]]:
         """Test function, test the model and return failures
 
         Returns:
@@ -191,17 +189,17 @@ class DeepNeuralNetwork:
         Args:
             number (int): The number of failures to show.
         """
-        failures, test_predictions = self.test()  # type: ignore
-        print(f"Number of failures: {len(failures)}")  # type: ignore
+        failures, test_predictions = self.test()
+        print(f"Number of failures: {len(failures)}")
         test_labels = cp.argmax(self.test_labels, axis=0)  # type: ignore
 
-        if number > len(failures):  # type: ignore
-            number = len(failures)  # type: ignore
+        if number > len(failures):
+            number = len(failures)
             print(f"Only {number} failures found.")
 
         plt.figure(figsize=(10, 10))  # type: ignore
         for i in range(number):
-            index = failures[i]  # type: ignore
+            index = failures[i]
             image = cp.asnumpy(self.test_matrix[:, index].reshape(28, 28))  # type: ignore
             true_label = test_labels[index]
             predicted_label = test_predictions[index]
@@ -286,5 +284,5 @@ def load_test_mnist() -> tuple[Any, Any]:
 
 if __name__ == "__main__":
     network = DeepNeuralNetwork()
-    network.train()  # type: ignore
-    network.test()  # type: ignore
+    network.train()
+    network.test()
