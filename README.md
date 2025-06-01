@@ -15,10 +15,6 @@ This repository contains a severals neural network that can recognize handwritte
 
 ### 2. [Deep Neural Network](#2---deep-neural-network)
 
-### 3. [Convolutional Neural Network](#3---convolutional-neural-network)
-
-### 4. [LeNet](#4---LeNet)
-
 ### 5. [Performance Comparison](#5---performance-comparison)
 
 ## 1 - Linear Classifier
@@ -63,14 +59,6 @@ And here's what the loss and precision curves roughly look like for both version
     <img src="assets/images/loss_vs_epoch_dnn.png" alt="Loss vs Epoch DNN"/>
 </p>
 
-## 3 - Convolutional Neural Network
-
-### In progress...
-
-## 4 - LeNet
-
-### In progress...
-
 ## 5 - Performance Comparison
 
 ### Here are tables comparing the performance of the different frameworks depending on the neural network used:
@@ -91,18 +79,6 @@ And here's what the loss and precision curves roughly look like for both version
 
 - Convolutional Neural Network
 
-| Framework | Accuracy | Training Time | Epochs | Learning Rate | Number of weights | Number of biases | Device |
-| :-------: | :------: | :-----------: | :----: | :-----------: | :---------------: | :--------------: | :----: |
-|  Vanilla  |          |               |  100   |               |       7840        |                  |  GPU   |
-|  Pytorch  |          |               |  100   |               |       7840        |                  |  GPU   |
-
-- LeNet
-
-| Framework | Accuracy | Training Time | Epochs | Learning Rate | Number of weights | Number of biases | Device |
-| :-------: | :------: | :-----------: | :----: | :-----------: | :---------------: | :--------------: | :----: |
-|  Vanilla  |          |               |  100   |               |       7840        |                  |  GPU   |
-|  Pytorch  |          |               |  100   |               |       7840        |                  |  GPU   |
-
 ### Here are tables comparing the performance of the different neural networks depending on the framework used:
 
 - Neural Network built from scratch using only **CuPy**
@@ -111,8 +87,6 @@ And here's what the loss and precision curves roughly look like for both version
 | :---------------: | :------: | :-----------: | :----: | :-----------: | :---------------: | :--------------: | :----: |
 | Linear Classifier |   ~88%   |     ~4.7s     |  100   |       1       |       7840        |        10        |  GPU   |
 |        DNN        |   ~93%   |     ~50s      |  500   |      0.1      |       26432       |        74        |  GPU   |
-|        CNN        |          |               |  100   |               |                   |                  |  GPU   |
-|       LeNet       |          |               |  100   |               |                   |                  |  GPU   |
 
 - Neural Network built with **PyTorch**
 
@@ -120,8 +94,6 @@ And here's what the loss and precision curves roughly look like for both version
 | :---------------: | :------: | :-----------: | :----: | :-----------: | :---------------: | :--------------: | :----: |
 | Linear Classifier |   ~88%   |     ~0.3s     |  100   |       1       |       7840        |        10        |  GPU   |
 |        DNN        |   ~93%   |     ~2.7s     |  500   |      0.1      |       26432       |        74        |  GPU   |
-|        CNN        |          |               |  100   |               |                   |                  |  GPU   |
-|       LeNet       |          |               |  100   |               |                   |                  |  GPU   |
 
 > **Note**: These values can change depending on the version of Python and your PC<br><br>
 > For these benchmarks, I used Python 3.12.4 64-bit implemented with CPython on a Ryzen 5 3600, rtx 2060 with 2\*8GB of RAM clocked at 3600Hz on Windows 10.
